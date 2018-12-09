@@ -6,20 +6,21 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-public class GameObjects {
+class GameObjects {
 
-    protected float x; // координаты
-    protected float y;
-    protected float size; // размер
-    protected float speed; // скорость
-    protected int bitmapId; // id картинки
-    protected Bitmap bitmap; // картинка
+    float x; // координаты
+    float y;
+    float sizeX; // размер
+    float sizeY;
+    float speed; // скорость
+    int bitmapId; // id картинки
+    private Bitmap bitmap; // картинка
 
     void init(Context context) {
         // сжимаем картинку до нужных размеров
         Bitmap cBitmap = BitmapFactory.decodeResource(context.getResources(), bitmapId);
         bitmap = Bitmap.createScaledBitmap(
-                cBitmap, (int)(size * GameView.unitW), (int)(size * GameView.unitH), false);
+                cBitmap, (int)(sizeX * GameView.unitW), (int)(sizeY * GameView.unitH), false);
         cBitmap.recycle();
     }
 

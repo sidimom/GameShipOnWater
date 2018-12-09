@@ -4,62 +4,95 @@ import android.content.Context;
 
 import java.util.Random;
 
-public class ThingOnWater extends GameObjects{
+class ThingOnWater extends GameObjects{
 
-    Random rand;
-    private float minSpeed = (float) 0.1;
-    private float maxSpeed = (float) 0.3;
+    private Random rand;
+    private boolean dangereous;
+    private boolean isHeart;
+    private int points = 0;
 
-    public ThingOnWater(Context context) {
+    ThingOnWater(Context context) {
         rand = new Random();
 
         // определяем начальные параметры
-        bitmapId = getRandomThing();
+        setRandomThing();
         y = rand.nextInt(GameView.maxY - 5);
         x = GameView.maxX - 5;
-        size = 5;
+        sizeX = 5;
+        sizeY = 5;
+        float minSpeed = (float) 0.1;
+        float maxSpeed = (float) 0.3;
         speed = minSpeed + (maxSpeed - minSpeed) * rand.nextFloat();
 
         init(context); // инициализируем предмет
     }
 
-    @Override
-    public void update() {
+    void update() {
         x -= speed;
     }
 
     //проверяем, столкнулся ли предмет с кораблем
-    public boolean isCollision(float shipX, float shipY, float shipSize) {
-        return !(((y+size) < shipY) // корабль ниже предмета
-                ||(y > (shipY+shipSize)) //корабыль выше предмета
-                ||((x+size) < shipX) //предмет перешел корабль
-                ||(x > (shipX+shipSize))); // предмет не дошел до корабля
+    boolean isCollision(float shipX, float shipY, float shipSizeX, float shipSizeY) {
+        return !(((y+sizeY) < shipY) // корабль ниже предмета
+                ||(y > (shipY+shipSizeY)) //корабыль выше предмета
+                ||((x+sizeY) < shipX) //предмет перешел корабль
+                ||(x > (shipX+shipSizeX))); // предмет не дошел до корабля
     }
 
     //получаем случайный предмет
-    private int getRandomThing() {
-        int idDrawable;
-        int idThing = rand.nextInt(5) + 1;
+    private void setRandomThing() {
+        int idThing = rand.nextInt(6) + 1;
         switch (idThing){
             case 1:
-                idDrawable = R.drawable.banana;
+                bitmapId = R.drawable.banana;
+                dangereous = false;
+                isHeart = false;
+                points = 10;
                 break;
             case 2:
-                idDrawable = R.drawable.bottle;
+                bitmapId = R.drawable.bottle;
+                dangereous = false;
+                isHeart = false;
+                points = 20;
                 break;
             case 3:
-                idDrawable = R.drawable.box;
+                bitmapId = R.drawable.box;
+                dangereous = true;
+                isHeart = false;
+
                 break;
             case 4:
-                idDrawable = R.drawable.stone1;
+                bitmapId = R.drawable.stone1;
+                dangereous = true;
+                isHeart = false;
                 break;
             case 5:
-                idDrawable = R.drawable.stone2;
+                bitmapId = R.drawable.stone2;
+                dangereous = true;
+                isHeart = false;
+                break;
+            case 6:
+                bitmapId = R.drawable.heart1;
+                dangereous = false;
+                isHeart = true;
                 break;
             default:
-                idDrawable = R.drawable.stone2;
+                bitmapId = R.drawable.stone2;
+                dangereous = true;
+                isHeart = false;
                 break;
         }
-        return idDrawable;
+    }
+
+    boolean isDangereous() {
+        return dangereous;
+    }
+
+    boolean isHeart() {
+        return isHeart;
+    }
+
+    int getPoints() {
+        return points;
     }
 }
