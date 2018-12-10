@@ -16,10 +16,10 @@ class ThingOnWater extends GameObjects{
 
         // определяем начальные параметры
         setRandomThing();
-        y = rand.nextInt(GameView.maxY - 5);
-        x = GameView.maxX - 5;
-        sizeX = 5;
-        sizeY = 5;
+        y = rand.nextInt(GameView.maxY - 3);
+        x = GameView.maxX - 3;
+        sizeX = 3;
+        sizeY = 3;
         float minSpeed = (float) 0.1;
         float maxSpeed = (float) 0.3;
         speed = minSpeed + (maxSpeed - minSpeed) * rand.nextFloat();
